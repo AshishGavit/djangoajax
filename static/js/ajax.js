@@ -54,7 +54,15 @@ $(document).ready(function() {
             // change field border on error
             element.css({
                 borderColor: 'red',
-            })
+            });
+        },
+        success: function(label, element) {
+            $(element).css('border-color', 'green');
+            // remove border color on success
+            setTimeout(function() {
+              $(element).css('border-color', '');
+            }, 3000); // 3 seconds
         }
     });
+    
 });
