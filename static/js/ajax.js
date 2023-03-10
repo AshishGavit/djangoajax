@@ -64,5 +64,35 @@ $(document).ready(function() {
             }, 3000); // 3 seconds
         }
     });
-    
+    $('#formid').click(function(event){
+        event.preventDefault();
+        if($(this).valid()){
+            // submit form data to the function save_data() in views.py using ajax
+            $.ajax({
+                url: "/save/", 
+                method: "POST",
+                data: $(this).serialize(),
+                success: function (data) { 
+                    if(data.status == "success"){
+                        x = data.students
+                        output = "";
+                        for(i=0; i<x.length; i++){
+                            output += "<tr><td>" + x[i].id + 
+                                    "</td><td>" + x[i].name +
+                                    "</td><td>" + x[i].email +
+                                    "</td><td>" + x[i].phone +
+                                    "</td><td> <input type='button' value='Edit' class='btn btn-warning btn-sm btn-edit' data-sid=" + x[i].id + "> <input type='button' value='Delete' class='btn btn-danger btn-sm btn-delete' data-sid=" + x[i].id +">"
+                        }
+                        $('#tbody').html(output);
+                        $('form')[0].reset();
+                    }
+                    else{
+                        console.log(data.message)
+                    }
+                 },
+            });
+        }else{
+            console.log('Form is invalid');
+        }
+    });
 });
