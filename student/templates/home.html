@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <h4 class="text-center alert alert-info">Add/Update Student</h4>
-                <form action="" method="" id="formid">
+                <form action="" method="post" id="formid">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="button" class="btn btn-success" value="Save" id="btnsave">
@@ -37,14 +37,14 @@
                     </thead>
                     <tbody id="tbody">
                         {% for student in students %}
-                        <tr>
+                        <tr id="{{ student.id }}">
                             <td>{{ student.id }}</td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.email }}</td>
                             <td>{{ student.phone }}</td>
                             <td>
-                                <input type="button" value="Edit" class="btn btn-warning btn-sm btn-edit" data-sid={{ student.id }}>
-                                <input type="button" value="Delete" class="btn btn-danger btn-sm btn-edit" data-sid={{ student.id }}>
+                                <input type="button" value="Edit" class="btn btn-warning btn-sm btn-edit" data-sid="{{ student.id }}">
+                                <input type="button" value="Delete" class="btn btn-danger btn-sm btn-delete" data-sid="{{ student.id }}">
                             </td>
                         </tr>
                         {% endfor %}

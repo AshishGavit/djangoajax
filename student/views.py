@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.views.decorators.http import require_POST
 from .models import Student
 from .forms import StudentForm
 
@@ -34,3 +35,16 @@ def save_data(request):
             return JsonResponse({'status':'failure', 'message':'Unable to save the data'})
     else:
         return JsonResponse({'status':'failure', 'message':'Unable to save the data'})
+
+@csrf_exempt
+@require_POST
+def delete_data(request):
+    rowID = request.POST.get('row_id')
+
+     # delete the row from the database
+    try:
+        student = Student.objects.get(id=rowID)
+        student.delete()
+        return JsonResponse({'success': True})
+    except Student.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'User not found'})

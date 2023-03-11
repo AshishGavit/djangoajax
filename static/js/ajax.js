@@ -95,4 +95,25 @@ $(document).ready(function() {
             console.log('Form is invalid');
         }
     });
+    $('.btn-delete').click(function(){
+        rowID = $(this).data('sid')
+        csrfToken = $('input[name="csrfmiddlewaretoken"]').val()
+
+        $.ajax({
+            url: '/delete/',
+            method: 'POST',
+            data: {
+                'row_id': rowID,
+                'csrfmiddlewaretoken':csrfToken,
+            },
+            success: function(response){
+                // remove the row from table
+                $('#' + rowID).remove();
+            },
+            error: function(xhr, status, error){
+                // handle error response
+                alert('Error: ' + error);
+            }
+        });
+    });
 });
