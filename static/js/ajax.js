@@ -96,7 +96,7 @@ $(document).ready(function() {
             console.log('Form is invalid');
         }
     });
-    $('.btn-delete').click(function(){
+    $('#tbody').on('click', '.btn-delete', function(){
         rowID = $(this).data('sid')
         csrfToken = $('input[name="csrfmiddlewaretoken"]').val()
 
@@ -117,7 +117,7 @@ $(document).ready(function() {
             }
         });
     });
-    $('.btn-edit').click(function(){
+    $('#tbody').on('click', '.btn-edit', function(){
         rowID = $(this).data('sid');
         csrfToken = $('input[name="csrfmiddlewaretoken"]').val()
         $.ajax({
