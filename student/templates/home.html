@@ -19,6 +19,7 @@
                 <h4 class="text-center alert alert-info">Add/Update Student</h4>
                 <form action="" method="post" id="formid">
                     {% csrf_token %}
+                    <input type="hidden" name="studentid" id="studentid">
                     {{ form.as_p }}
                     <input type="button" class="btn btn-success" value="Save" id="btnsave">
                 </form>

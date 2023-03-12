@@ -64,20 +64,21 @@ $(document).ready(function() {
             }, 3000); // 3 seconds
         }
     });
-    $('#formid').click(function(event){
+    $('#btnsave').on('click', function(event){
         event.preventDefault();
-        if($(this).valid()){
+        if($('#formid').valid()){
             // submit form data to the function save_data() in views.py using ajax
+            // console.log($('#formid').serialize())
             $.ajax({
                 url: "/save/", 
                 method: "POST",
-                data: $(this).serialize(),
+                data: $('#formid').serialize(),
                 success: function (data) { 
                     if(data.status == "success"){
                         x = data.students
                         output = "";
                         for(i=0; i<x.length; i++){
-                            output += "<tr><td>" + x[i].id + 
+                            output += "<tr id=" + x[i].id + "><td>" + x[i].id + 
                                     "</td><td>" + x[i].name +
                                     "</td><td>" + x[i].email +
                                     "</td><td>" + x[i].phone +
@@ -113,6 +114,21 @@ $(document).ready(function() {
             error: function(xhr, status, error){
                 // handle error response
                 alert('Error: ' + error);
+            }
+        });
+    });
+    $('.btn-edit').click(function(){
+        rowID = $(this).data('sid');
+        csrfToken = $('input[name="csrfmiddlewaretoken"]').val()
+        $.ajax({
+            url: '/edit/',
+            method: 'POST',
+            data: {'row_id':rowID, 'csrfmiddlewaretoken':csrfToken,},
+            success: function(response){
+                $('#studentid').val(response.id)
+                $('#nameid').val(response.name)
+                $('#emailid').val(response.email)
+                $('#phoneid').val(response.phone)
             }
         });
     });
