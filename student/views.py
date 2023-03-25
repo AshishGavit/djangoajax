@@ -21,14 +21,10 @@ def save_data(request):
         form = StudentForm(request.POST)
         if form.is_valid():
             # Save the data to the database
-            rowID = request.POST.get('studentid')
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             phone = form.cleaned_data['phone']
-            if rowID == "":
-                student = Student(name=name, email=email, phone=phone)
-            else:
-                student = Student(id=rowID, name=name, email=email, phone=phone)
+            student = Student(name=name, email=email, phone=phone)
             student.save()
 
             # Retrieve all the data from the database
@@ -59,4 +55,22 @@ def edit_data(request):
     rowID = request.POST.get('row_id')
     student = Student.objects.get(pk=rowID)
     student_data = {'id':student.id, 'name':student.name, 'email':student.email, 'phone':student.phone}
-    return JsonResponse(student_data) 
+    return JsonResponse(student_data)
+
+@csrf_protect
+@require_POST
+def update_data(request):
+    form = StudentForm(request.POST)
+    if form.is_valid():
+        rowID = request.POST.get('studentid')
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        phone = form.cleaned_data['phone']
+        student = Student(id=rowID, name=name, email=email, phone=phone)
+        student.save()
+
+        querset = Student.objects.values()
+        students = list(querset)
+        return JsonResponse({'status': True, 'message': 'Data Updated successfully!', 'students':students})
+    else:
+        return JsonResponse({'status': False, 'message':'Unable to Update the data'})
