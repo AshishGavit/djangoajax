@@ -16,12 +16,21 @@
         <h1 class="text-center alert alert-danger">Django Ajax CRUD App</h1>
         <div class="row">
             <div class="col-sm-4">
-                <h4 class="text-center alert alert-info">Add/Update Student</h4>
+                <h4 class="text-center alert alert-info" id="form-title">Add Student</h4>
                 <form action="" method="post" id="formid">
                     {% csrf_token %}
                     <input type="hidden" name="studentid" id="studentid">
-                    {{ form.as_p }}
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    <div id="name-message" class="error-message"></div><br>
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    <div id="email-message"></div><br>
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+                    <br>
                     <input type="button" class="btn btn-success" value="Save" id="btnsave">
+                    <input type="reset" class="btn btn-secondary", value="Cancel" id="btncancel">
                 </form>
             </div>
             <div class="col-sm-8">
@@ -54,6 +63,24 @@
             </div>
         </div>
     </div>
+    <!-- CSS for invalid name field -->
+    <style>
+        label.error {
+            color: red;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .valid {
+            border-color: green !important;
+        }
+
+        .error {
+            border-color: red !important;
+        }
+    </style>
     <!-- Bootstrap Bundle with Popper -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <!-- JQuery for ajax -->
